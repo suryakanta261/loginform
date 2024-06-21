@@ -1,94 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import './LoginForm.css';
 
-function LoginForm() {
-  const [inputData, setInputData] = useState({ username: '', password: '' });
-  const [rememberme, setRememberme] = useState(false);
-  const [subscribe, setSubscribe] = useState(false);
-  const [gender,setGender]=useState('')
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("username:", inputData.username);
-    console.log("password:", inputData.password);
-    console.log("rememberme:", rememberme);
-    console.log("subscribe:", subscribe);
-    console.log("gender",gender);
-  };
+export default function LoginForm() {
+  const [inputData, setInputData] = useState({ username: '', password: '',number:'' });
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
+    setError('');
   };
 
-  const handleCheckBoxChange = (e) => {
-    const { name, checked } = e.target;
-    if (name === 'rememberme') {
-      setRememberme(checked);
-    } else if (name === 'subscribe') {
-      setSubscribe(checked);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!inputData.username || !inputData.password) {
+      setError('Both fields are required');
+      return;
     }
+    console.log("username:", inputData.username);
+    console.log("password:", inputData.password);
+    console.log("Number:", inputData.number);
   };
-  const handleGenderCheck=(e)=>{
-    setGender(e.target.value)
-  }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input 
-            type='text' 
-            placeholder='Enter username' 
-            name='username' 
-            value={inputData.username} 
-            onChange={handleInputChange} 
-          />
+    <div className="container">
+      <form onSubmit={handleSubmit} className="form">
+        <h1>Login Form</h1>
+
+        <div className="inputGroup">
+          <label>Username</label>
+          <input type="text" name="username" value={inputData.username}  onChange={handleInputChange} />
         </div>
-        <div>
-          <label>Password:</label>
-          <input 
-            type='password' 
-            placeholder='Enter password' 
-            name='password' 
-            value={inputData.password} 
-            onChange={handleInputChange} 
-          />
+
+        <div className="inputGroup">
+          <label>Password</label>
+          <input type="password" name="password" value={inputData.password} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>
-            Remember Me
-            <input 
-              type='checkbox' 
-              name='rememberme' 
-              checked={rememberme} 
-              onChange={handleCheckBoxChange} 
-            />
-          </label>
+
+        <div className="inputGroup">
+          <label>Number</label>
+          <input type="text" name="number" value={inputData.number} onChange={handleInputChange} />
         </div>
-        <div>
-          <label>
-            Subscribe
-            <input 
-              type='checkbox' 
-              name='subscribe' 
-              checked={subscribe} 
-              onChange={handleCheckBoxChange} 
-            />
-          </label>
-        </div>
-        <div>
-          <label>Male</label>
-          <input type='radio' name='gender' value='male' checked={gender==='male'} onChange={handleGenderCheck}/>
-        </div>
-        <div>
-          <label>female</label>
-          <input type='radio' name='gender' value='female' checked={gender==='female'} onChange={handleGenderCheck}/>
-        </div>
-        <button type='submit'>Login</button>
+
+        <button type="submit"> Login </button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
-    </>
+    </div>
   );
 }
-
-export default LoginForm;
