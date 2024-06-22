@@ -18,7 +18,12 @@ export default function LoginForm() {
       setError('Both fields are required');
       return;
     }
-    //const number = /^[0-9]{10}$/;
+    const usernameRegex=/^[a-zA-Z]*$/;
+
+    if(!usernameRegex.test(inputData.username)){
+      setError("username should not contain special character");
+      return;
+    }
     if ( inputData.number.length !==10 || isNaN(inputData.number)) {
       setError('Mobile number must be 10 digits');
       return;
@@ -50,7 +55,7 @@ export default function LoginForm() {
         </div>
 
         <button type="submit"> Login </button>
-        {error && <p style={{ color: 'yellow' }}>{error}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </form>
       {submittedData && <div>
         <h1>submitted data</h1>
