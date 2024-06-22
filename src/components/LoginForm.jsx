@@ -4,6 +4,7 @@ import './LoginForm.css';
 export default function LoginForm() {
   const [inputData, setInputData] = useState({ username: '', password: '',number:'' });
   const [error, setError] = useState('');
+  const [submittedData,setSubmittedData]=useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -17,6 +18,12 @@ export default function LoginForm() {
       setError('Both fields are required');
       return;
     }
+    //const number = /^[0-9]{10}$/;
+    if ( inputData.number.length !==10 || isNaN(inputData.number)) {
+      setError('Mobile number must be 10 digits');
+      return;
+    }
+    setSubmittedData(inputData);
     console.log("username:", inputData.username);
     console.log("password:", inputData.password);
     console.log("Number:", inputData.number);
@@ -43,8 +50,14 @@ export default function LoginForm() {
         </div>
 
         <button type="submit"> Login </button>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p style={{ color: 'yellow' }}>{error}</p>}
       </form>
+      {submittedData && <div>
+        <h1>submitted data</h1>
+        <p>username:{inputData.username}</p>
+        <p>password:{inputData.password}</p>
+        <p>number:{inputData.number}</p>
+      </div>}
     </div>
   );
 }
